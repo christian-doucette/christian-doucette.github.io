@@ -1,2 +1,2 @@
 # christian-doucette.github.io
-Christian's website
+My name is Christian Doucette and this is my personal website
