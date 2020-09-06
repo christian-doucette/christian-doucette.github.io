@@ -20,9 +20,11 @@
 </head>
 
 <body style="text-align:center !important">
-<h1>Tic tac toe</h1>
+<h1 onclick="window.alert('hi')">Tic tac toe</h1>
 <p>Click to make your move</p>
-<button onclick="clearBoard()">Restart</button>
+<p><button onclick="clearBoard()">Restart</button></p>
+<p id="winText">&nbsp;</p>
+
 
 <div class="grid-container">
   <div onclick="playerSelect(this)" id=0 class="grid-item">&nbsp;</div>
@@ -37,6 +39,7 @@
 </div>
 
 </body>
+
 <script>
 var isHumanTurn = true;
 var vals = [0,0,0,0,0,0,0,0,0]; //0 if unused, 1 if human, -1 if computer
@@ -46,20 +49,28 @@ function clearBoard() {
 	for (var i = 0; i < 9; i++) {
     	vals[i] = 0;
         document.getElementById(i).innerHTML = '&nbsp;';   
+        document.getElementById("winText").innerHTML = '&nbsp;';   
         isHumanTurn = true;
     }
 }
 
+
+
 function playerSelect(square) {
   let number = parseInt(square.id);
   if (!vals[number] && isHumanTurn) {
-      square.innerHTML = 'x';
-      vals[number] = 1;
+      humanTurn(number, square)
       didHumanWin()
-      isHumanTurn = false
+      isBoardFull()
       computerTurn()
       didComputerWin()
   }
+}
+
+function humanTurn(number, square) {
+    square.innerHTML = 'x';
+    vals[number] = 1;
+    isHumanTurn = false;
 }
 
 function computerTurn() {
@@ -78,9 +89,9 @@ function computerTurn() {
 
 function didHumanWin() {
     if (hwins(0, 1, 2) || hwins(3, 4, 5) || hwins(6, 7, 8) || hwins(0, 3, 6) || hwins(1, 4, 7) || hwins(2, 5, 8) || hwins(0, 4, 8) || hwins(2, 4, 6)) {
-    	window.alert('Human won!');
+    	document.getElementById("winText").innerHTML = "Human won!"
         isHumanTurn = false;
-	}    
+	} 
 }
 
 function hwins(a, b, c) {
@@ -89,13 +100,21 @@ function hwins(a, b, c) {
 
 function didComputerWin() {
     if (cwins(0, 1, 2) || cwins(3, 4, 5) || cwins(6, 7, 8) || cwins(0, 3, 6) || cwins(1, 4, 7) || cwins(2, 5, 8) || cwins(0, 4, 8) || cwins(2, 4, 6)) {
-    	window.alert('Computer won!');
+    	document.getElementById("winText").innerHTML = "Computer won!";
         isHumanTurn = false;
 	}
 }
 
 function cwins(a, b, c) {
 	return ((vals[a]+vals[b]+vals[c])===-3);
+}
+
+function isBoardFull() {
+    if (vals[0] && vals[1] && vals[2] && vals[3] && vals[4] && vals[5] && vals[6] && vals[7] && vals[8]) {
+        document.getElementById("winText").innerHTML = "Tied!";
+        isHumanTurn = false
+    }
+
 }
 </script>
 </html>
