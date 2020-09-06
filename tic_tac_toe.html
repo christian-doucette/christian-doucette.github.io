@@ -23,7 +23,7 @@
 <h1 onclick="window.alert('hi')">Human vs Computer: Tic Tac Toe</h1>
 <p>Click to make your move. See if you can beat my bot (hint: its impossible)</p>
 <p><button onclick="clearBoard()">Restart</button></p>
-<p id="winText">&nbsp;</p>
+<p id="resultText">&nbsp;</p>
 
 
 <div class="grid-container">
@@ -51,7 +51,7 @@ function clearBoard() {
         vals[i] = 0;
         document.getElementById(i).innerHTML = '&nbsp;';   
     }
-    document.getElementById("winText").innerHTML = '&nbsp;';   
+    document.getElementById("resultText").innerHTML = '&nbsp;';   
     isHumanTurn = true;
     gameOver = false;
 }
@@ -63,7 +63,7 @@ function playerSelect(square) {
   if (!vals[number] && isHumanTurn && !gameOver) {
       humanTurn(number, square)
       didSomeoneWin()
-      isBoardFull()
+      if (!gameOver) isBoardFull()
       if (!gameOver) {
           computerTurn()
           didSomeoneWin()
@@ -85,16 +85,16 @@ function computerTurn() {
         	//console.log('Spot at ' + (i+1))
             document.getElementById(i).innerHTML = 'o';
             vals[i] = -1;
-            isHumanTurn = true;
             break;
     	}
-	}
+    }
+    isHumanTurn = true;
 }
 
 function didSomeoneWin() {
     if (win(0,1,2) || win(3,4,5) || win(6,7,8) || win(0,3,6) || win(1,4,7) || win(2,5,8) || win(0,4,8) || win(2,4,6)) {
-    	if (!isHumanTurn) document.getElementById("winText").innerHTML = "Human won!"
-        else document.getElementById("winText").innerHTML = "Computer won!"
+    	if (!isHumanTurn) document.getElementById("resultText").innerHTML = "Human won!"
+        else document.getElementById("resultText").innerHTML = "Computer won!"
         gameOver = true;
 	} 
 }
@@ -106,10 +106,9 @@ function win(a, b, c) {
 
 function isBoardFull() {
     if (vals[0] && vals[1] && vals[2] && vals[3] && vals[4] && vals[5] && vals[6] && vals[7] && vals[8]) {
-        document.getElementById("winText").innerHTML = "Tied!";
+        document.getElementById("resultText").innerHTML = "Tied!";
         gameOver = true;
     }
-
 }
 </script>
 </html>
