@@ -22,20 +22,80 @@
 <body style="text-align:center !important">
 <h1>Tic tac toe</h1>
 <p>Click to make your move</p>
+<button onclick="clearBoard()">Restart</button>
+
 <div class="grid-container">
-  <div onclick="window.alert('ah')" class="grid-item">x</div>
-  <div class="grid-item">2</div>
-  <div class="grid-item">3</div>  
-  <div class="grid-item">4</div>
-  <div class="grid-item">5</div>
-  <div class="grid-item">6</div>  
-  <div class="grid-item">7</div>
-  <div class="grid-item">8</div>
-  <div class="grid-item">9</div>  
+  <div onclick="playerSelect(this)" id=0 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=1 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=2 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=3 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=4 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=5 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=6 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=7 class="grid-item">&nbsp;</div>
+  <div onclick="playerSelect(this)" id=8 class="grid-item">&nbsp;</div>
 </div>
 
 </body>
+<script>
+var isHumanTurn = true;
+var vals = [0,0,0,0,0,0,0,0,0]; //0 if unused, 1 if human, -1 if computer
 
+function clearBoard() { 
+	//console.log('Clearing...')
+	for (var i = 0; i < 9; i++) {
+    	vals[i] = 0;
+        document.getElementById(i).innerHTML = '&nbsp;';   
+        isHumanTurn = true;
+    }
+}
 
+function playerSelect(square) {
+  let number = parseInt(square.id);
+  if (!vals[number] && isHumanTurn) {
+      square.innerHTML = 'x';
+      vals[number] = 1;
+      didHumanWin()
+      isHumanTurn = false
+      computerTurn()
+      didComputerWin()
+  }
+}
 
+function computerTurn() {
+	//console.log('New time')
+	for (var i = 0; i < 9; i++) {
+    	//console.log('vals[' + i + '] = ' + vals[i])
+    	if (!vals[i]) {
+        	//console.log('Spot at ' + (i+1))
+            document.getElementById(i).innerHTML = 'o';
+            vals[i] = -1;
+            isHumanTurn = true;
+            break;
+    	}
+	}
+}
+
+function didHumanWin() {
+    if (hwins(0, 1, 2) || hwins(3, 4, 5) || hwins(6, 7, 8) || hwins(0, 3, 6) || hwins(1, 4, 7) || hwins(2, 5, 8) || hwins(0, 4, 8) || hwins(2, 4, 6)) {
+    	window.alert('Human won!');
+        isHumanTurn = false;
+	}    
+}
+
+function hwins(a, b, c) {
+	return ((vals[a]+vals[b]+vals[c])===3);
+}
+
+function didComputerWin() {
+    if (cwins(0, 1, 2) || cwins(3, 4, 5) || cwins(6, 7, 8) || cwins(0, 3, 6) || cwins(1, 4, 7) || cwins(2, 5, 8) || cwins(0, 4, 8) || cwins(2, 4, 6)) {
+    	window.alert('Computer won!');
+        isHumanTurn = false;
+	}
+}
+
+function cwins(a, b, c) {
+	return ((vals[a]+vals[b]+vals[c])===-3);
+}
+</script>
 </html>
