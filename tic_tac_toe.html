@@ -22,7 +22,7 @@
 <body style="text-align:center !important">
 <h1 >Human vs Computer: Tic Tac Toe</h1>
 <p>Click to make your move. See if you can beat my bot (hint: its impossible)</p>
-<p><button onclick="clearBoard()">Restart</button></p>
+<p><button onclick="restart()">Restart</button></p>
 <p id="resultText">&nbsp;</p>
 
 
@@ -41,12 +41,14 @@
 </body>
 
 <script>
+//Global Variables
 var isHumanTurn = true;
 var vals = [0,0,0,0,0,0,0,0,0]; //0 if unused, 1 if human, -1 if computer
 var gameOver = false;
 
-function clearBoard() { 
-	//console.log('Clearing...')
+
+//Function to restart game
+function restart() { 
 	for (var i = 0; i < 9; i++) {
         vals[i] = 0;
         document.getElementById(i).innerHTML = '&nbsp;';   
@@ -57,19 +59,35 @@ function clearBoard() {
 }
 
 
-
 function playerSelect(square) {
-  let number = parseInt(square.id);
-  if (!vals[number] && isHumanTurn && !gameOver) {
-      humanTurn(number, square)
-      didSomeoneWin()
-      if (!gameOver) isBoardFull()
-      if (!gameOver) {
-          computerTurn()
-          didSomeoneWin()
-      }
-  }
- }
+    let number = parseInt(square.id);
+    if (!vals[number] && isHumanTurn && !gameOver) {
+        humanTurn(number, square)
+        isHumanTurn = false;
+        if (didPersonWin(vals, 1)) {
+            gameOver = true;
+            document.getElementById("resultText").innerHTML = "Human wins"
+        }
+        else {
+            if (isFull(vals)) {
+                gameOver = true;
+                document.getElementById("resultText").innerHTML = "Tie"
+            }
+        
+            else {
+                computerTurn()
+                isHumanTurn = true;
+                if (didPersonWin(vals, -1)) {
+                    gameOver = true;
+                    document.getElementById("resultText").innerHTML = "Computer wins"
+                }
+            }
+        }
+    }
+    /*else if (vals[number]) window.alert('Spot taken')
+    else if (!isHumanTurn) window.alert('Not your turn')
+    else window.alert('Game over')*/
+}
 
 function humanTurn(number, square) {
     square.innerHTML = 'x';
@@ -84,19 +102,6 @@ function computerTurn() {
         vals[bestMove] = -1;
         isHumanTurn = true;
     }
-}
-
-function didSomeoneWin() {
-    if (win(0,1,2) || win(3,4,5) || win(6,7,8) || win(0,3,6) || win(1,4,7) || win(2,5,8) || win(0,4,8) || win(2,4,6)) {
-    	if (!isHumanTurn) document.getElementById("resultText").innerHTML = "Human wins"
-        else document.getElementById("resultText").innerHTML = "Computer wins"
-        gameOver = true;
-	} 
-}
-
-function win(a, b, c) {
-	if (!isHumanTurn) return ((vals[a]+vals[b]+vals[c])===3);
-    else return ((vals[a]+vals[b]+vals[c])===-3); 
 }
 
 function isBoardFull() {
@@ -124,10 +129,10 @@ function chooseBestMove() {
 }
 
 function minimax(board, playerID) {
-    if (otherPersonWon(board, -playerID)) return -playerID; //if other player won last move
+    if (didPersonWin(board, -playerID)) return -playerID; //if other player won last move
     if (isFull(board)) return 0; //if tie
 
-    var bestScore = -2 * playerID;
+    var bestScore = -2 * playerID; //will always be replaced on the first run through
     for (var i = 0; i < 9; i++) {
     	if (!board[i]) {
             var boardWithThisMove = [...board];
@@ -141,8 +146,8 @@ function minimax(board, playerID) {
     return bestScore;
 }
 
-function otherPersonWon(b, n) {
-    return ((b[0]+b[1]+b[2]===n*3) || (b[3]+b[4]+b[5]===n*3) || (b[6]+b[7]+b[8]===n*3) || (b[0]+b[3]+b[6]===n*3) || (b[1]+b[4]+b[7]===n*3) || (b[2]+b[5]+b[8]===n*3) || (b[0]+b[4]+b[8]===n*3) || (b[2]+b[4]+b[6]===n*3))
+function didPersonWin(B, n) {
+    return ((B[0]+B[1]+B[2]===n*3) || (B[3]+B[4]+B[5]===n*3) || (B[6]+B[7]+B[8]===n*3) || (B[0]+B[3]+B[6]===n*3) || (B[1]+B[4]+B[7]===n*3) || (B[2]+B[5]+B[8]===n*3) || (B[0]+B[4]+B[8]===n*3) || (B[2]+B[4]+B[6]===n*3))
 }
 
 function isFull(board) {
