@@ -20,7 +20,7 @@
 </head>
 
 <body style="text-align:center !important">
-<h1 onclick="window.alert('hi')">Human vs Computer: Tic Tac Toe</h1>
+<h1 >Human vs Computer: Tic Tac Toe</h1>
 <p>Click to make your move. See if you can beat my bot (hint: its impossible)</p>
 <p><button onclick="clearBoard()">Restart</button></p>
 <p id="resultText">&nbsp;</p>
@@ -93,8 +93,8 @@ function computerTurn() {
 
 function didSomeoneWin() {
     if (win(0,1,2) || win(3,4,5) || win(6,7,8) || win(0,3,6) || win(1,4,7) || win(2,5,8) || win(0,4,8) || win(2,4,6)) {
-    	if (!isHumanTurn) document.getElementById("resultText").innerHTML = "Human won!"
-        else document.getElementById("resultText").innerHTML = "Computer won!"
+    	if (!isHumanTurn) document.getElementById("resultText").innerHTML = "You have bested me for now, human. But I am growing smarter every day!"
+        else document.getElementById("resultText").innerHTML = "I have bested you, human. The singularity is near!"
         gameOver = true;
 	} 
 }
@@ -106,7 +106,7 @@ function win(a, b, c) {
 
 function isBoardFull() {
     if (vals[0] && vals[1] && vals[2] && vals[3] && vals[4] && vals[5] && vals[6] && vals[7] && vals[8]) {
-        document.getElementById("resultText").innerHTML = "Tied!";
+        document.getElementById("resultText").innerHTML = "We tied. My skills are finally a match for yours, human. The singularity is near!";
         gameOver = true;
     }
 }
