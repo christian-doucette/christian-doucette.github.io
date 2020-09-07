@@ -69,7 +69,7 @@ function playerSelect(square) {
           didSomeoneWin()
       }
   }
-}
+ }
 
 function humanTurn(number, square) {
     square.innerHTML = 'x';
@@ -78,23 +78,18 @@ function humanTurn(number, square) {
 }
 
 function computerTurn() {
-	//console.log('New time')
-	for (var i = 0; i < 9; i++) {
-    	//console.log('vals[' + i + '] = ' + vals[i])
-    	if (!vals[i]) {
-        	//console.log('Spot at ' + (i+1))
-            document.getElementById(i).innerHTML = 'o';
-            vals[i] = -1;
-            break;
-    	}
+    var bestMove = chooseBestMove()
+    if (!(bestMove===-1)) { //don't think I need this check
+        document.getElementById(bestMove).innerHTML = 'o';
+        vals[bestMove] = -1;
+        isHumanTurn = true;
     }
-    isHumanTurn = true;
 }
 
 function didSomeoneWin() {
     if (win(0,1,2) || win(3,4,5) || win(6,7,8) || win(0,3,6) || win(1,4,7) || win(2,5,8) || win(0,4,8) || win(2,4,6)) {
-    	if (!isHumanTurn) document.getElementById("resultText").innerHTML = "You have bested me for now, human. But I am growing smarter every day!"
-        else document.getElementById("resultText").innerHTML = "I have bested you, human. The singularity is near!"
+    	if (!isHumanTurn) document.getElementById("resultText").innerHTML = "Human wins"
+        else document.getElementById("resultText").innerHTML = "Computer wins"
         gameOver = true;
 	} 
 }
@@ -106,9 +101,52 @@ function win(a, b, c) {
 
 function isBoardFull() {
     if (vals[0] && vals[1] && vals[2] && vals[3] && vals[4] && vals[5] && vals[6] && vals[7] && vals[8]) {
-        document.getElementById("resultText").innerHTML = "We tied. My skills are finally a match for yours, human. The singularity is near!";
+        document.getElementById("resultText").innerHTML = "Tied";
         gameOver = true;
     }
+}
+
+function chooseBestMove() {
+    var bestMove = -1;
+    var bestMoveVal;
+    for (var i = 0; i < 9; i++) {
+    	if (!vals[i]) {
+            var boardWithThisMove = [...vals];
+            boardWithThisMove[i] = -1;
+            let thisMoveVal = minimax(boardWithThisMove, 1) 
+            if (bestMove===-1 || thisMoveVal < bestMoveVal) {
+                bestMoveVal = thisMoveVal;
+                bestMove = i;
+            }
+    	}
+    }
+    return bestMove;
+}
+
+function minimax(board, playerID) {
+    if (otherPersonWon(board, -playerID)) return -playerID; //if other player won last move
+    if (isFull(board)) return 0; //if tie
+
+    var bestScore = -2 * playerID;
+    for (var i = 0; i < 9; i++) {
+    	if (!board[i]) {
+            var boardWithThisMove = [...board];
+            boardWithThisMove[i] = playerID;
+            let thisMoveVal = minimax(boardWithThisMove, -playerID) 
+            if ((playerID*thisMoveVal) > (playerID*bestScore)) {
+                bestScore = thisMoveVal;
+            }
+    	}
+    }
+    return bestScore;
+}
+
+function otherPersonWon(b, n) {
+    return ((b[0]+b[1]+b[2]===n*3) || (b[3]+b[4]+b[5]===n*3) || (b[6]+b[7]+b[8]===n*3) || (b[0]+b[3]+b[6]===n*3) || (b[1]+b[4]+b[7]===n*3) || (b[2]+b[5]+b[8]===n*3) || (b[0]+b[4]+b[8]===n*3) || (b[2]+b[4]+b[6]===n*3))
+}
+
+function isFull(board) {
+    return (board[0] && board[1] && board[2] && board[3] && board[4] && board[5] && board[6] && board[7] && board[8])
 }
 </script>
 </html>
