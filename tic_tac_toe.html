@@ -61,32 +61,27 @@ function restart() {
 
 function playerSelect(square) {
     let number = parseInt(square.id);
-    if (!vals[number] && isHumanTurn && !gameOver) {
-        humanTurn(number, square)
-        isHumanTurn = false;
-        if (didPersonWin(vals, 1)) {
-            gameOver = true;
-            document.getElementById("resultText").innerHTML = "Human wins"
-        }
-        else {
-            if (isFull(vals)) {
-                gameOver = true;
-                document.getElementById("resultText").innerHTML = "Tie"
-            }
-        
-            else {
-                computerTurn()
-                isHumanTurn = true;
-                if (didPersonWin(vals, -1)) {
-                    gameOver = true;
-                    document.getElementById("resultText").innerHTML = "Computer wins"
-                }
-            }
-        }
+    if (vals[number] || !isHumanTurn || gameOver) return;
+
+    humanTurn(number, square);
+    isHumanTurn = false;
+    if (didPersonWin(vals, 1)) {
+        gameOver = true;
+        document.getElementById("resultText").innerHTML = "Human wins";
+        return
     }
-    /*else if (vals[number]) window.alert('Spot taken')
-    else if (!isHumanTurn) window.alert('Not your turn')
-    else window.alert('Game over')*/
+    if (isFull(vals)) {
+        gameOver = true;
+        document.getElementById("resultText").innerHTML = "Tie";
+        return;
+    }
+    computerTurn()
+    isHumanTurn = true;
+    if (didPersonWin(vals, -1)) {
+        gameOver = true;
+        document.getElementById("resultText").innerHTML = "Computer wins";
+    }
+    return;
 }
 
 function humanTurn(number, square) {
