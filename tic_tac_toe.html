@@ -27,15 +27,15 @@
 
 
 <div class="grid-container">
-  <div onclick="playerSelect(this)" id=0 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=1 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=2 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=3 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=4 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=5 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=6 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=7 class="grid-item">&nbsp;</div>
-  <div onclick="playerSelect(this)" id=8 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=0 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=1 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=2 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=3 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=4 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=5 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=6 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=7 class="grid-item">&nbsp;</div>
+  <div onclick="onSelect(this)" id=8 class="grid-item">&nbsp;</div>
 </div>
 
 </body>
@@ -59,16 +59,15 @@ function restart() {
 }
 
 
-function playerSelect(square) {
-    let number = parseInt(square.id);
-    if (vals[number] || !isHumanTurn || gameOver) return;
+function onSelect(square) {
+    let squareID = parseInt(square.id);
+    if (vals[squareID] || !isHumanTurn || gameOver) return;
 
-    humanTurn(number, square);
-    isHumanTurn = false;
+    humanTurn(squareID, square);
     if (didPersonWin(vals, 1)) {
         gameOver = true;
         document.getElementById("resultText").innerHTML = "Human wins";
-        return
+        return;
     }
     if (isFull(vals)) {
         gameOver = true;
@@ -76,7 +75,6 @@ function playerSelect(square) {
         return;
     }
     computerTurn()
-    isHumanTurn = true;
     if (didPersonWin(vals, -1)) {
         gameOver = true;
         document.getElementById("resultText").innerHTML = "Computer wins";
@@ -84,9 +82,10 @@ function playerSelect(square) {
     return;
 }
 
-function humanTurn(number, square) {
+
+function humanTurn(squareID, square) {
     square.innerHTML = 'x';
-    vals[number] = 1;
+    vals[squareID] = 1;
     isHumanTurn = false;
 }
 
@@ -99,12 +98,6 @@ function computerTurn() {
     }
 }
 
-function isBoardFull() {
-    if (vals[0] && vals[1] && vals[2] && vals[3] && vals[4] && vals[5] && vals[6] && vals[7] && vals[8]) {
-        document.getElementById("resultText").innerHTML = "Tied";
-        gameOver = true;
-    }
-}
 
 function chooseBestMove() {
     var bestMove = -1;
