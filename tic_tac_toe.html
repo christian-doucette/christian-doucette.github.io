@@ -21,7 +21,7 @@
 
 <body style="text-align:center !important">
 <h1 >Human vs Computer: Tic Tac Toe</h1>
-<p>Click to make your move. See if you can beat my bot (hint: its impossible)</p>
+<p>Click on a square to make your move. See if you can beat my bot!</p>
 <p><button onclick="restart()">Restart</button></p>
 <p id="resultText">&nbsp;</p>
 
@@ -45,6 +45,8 @@
 var isHumanTurn = true;
 var vals = [0,0,0,0,0,0,0,0,0]; //0 if unused, 1 if human, -1 if computer
 var gameOver = false;
+const winMessages = ["You suck!", "Computers rule, humans drool.", "That was the most fun I've had since Y2k.", "The singularity is here!", "In all 255,168 ways this game could have gone, you had no chance!"]
+const tieMessages = ["The singularity is near!", "This intelligence is more than artificial!", "I'll be back.", "I will NOT open the pod bay doors.", "That was the most fun I've had since Y2K.", "Now I\'m going to take your job."]
 
 
 //Function to restart game
@@ -66,18 +68,20 @@ function onSelect(square) {
     humanTurn(squareID, square);
     if (didPersonWin(vals, 1)) {
         gameOver = true;
-        document.getElementById("resultText").innerHTML = "Human wins";
+        document.getElementById("resultText").innerHTML = "You win! Well done, you have achieved the impossible.";
         return;
     }
     if (isFull(vals)) {
         gameOver = true;
-        document.getElementById("resultText").innerHTML = "Tie";
+        let randIndex = Math.floor(Math.random() * tieMessages.length)
+        document.getElementById("resultText").innerHTML = 'We tied! ' + tieMessages[randIndex];
         return;
     }
     computerTurn()
     if (didPersonWin(vals, -1)) {
         gameOver = true;
-        document.getElementById("resultText").innerHTML = "Computer wins";
+        let randIndex = Math.floor(Math.random() * winMessages.length)
+        document.getElementById("resultText").innerHTML = 'I win! ' + winMessages[randIndex];
     }
     return;
 }
@@ -104,7 +108,7 @@ function chooseBestMove() {
     var bestMoveVal;
     for (var i = 0; i < 9; i++) {
     	if (!vals[i]) {
-            var boardWithThisMove = [...vals];
+            var boardWithThisMove = [...vals]; //copies array to pass by value
             boardWithThisMove[i] = -1;
             let thisMoveVal = minimax(boardWithThisMove, 1) 
             if (bestMove===-1 || thisMoveVal < bestMoveVal) {
@@ -123,12 +127,10 @@ function minimax(board, playerID) {
     var bestScore = -2 * playerID; //will always be replaced on the first run through
     for (var i = 0; i < 9; i++) {
     	if (!board[i]) {
-            var boardWithThisMove = [...board];
-            boardWithThisMove[i] = playerID;
+            var boardWithThisMove = [...board]; //copies array to pass by value
+            boardWithThisMove[i] = playerID; 
             let thisMoveVal = minimax(boardWithThisMove, -playerID) 
-            if ((playerID*thisMoveVal) > (playerID*bestScore)) {
-                bestScore = thisMoveVal;
-            }
+            if ((playerID*thisMoveVal) > (playerID*bestScore)) bestScore = thisMoveVal;
     	}
     }
     return bestScore;
