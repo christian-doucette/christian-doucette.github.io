@@ -31,14 +31,14 @@ function onSelect(square) {
     if (isFull(vals)) {
         gameOver = true;
         let randIndex = Math.floor(Math.random() * tieMessages.length)
-        document.getElementById("resultText").innerHTML = 'We tied! ' + tieMessages[randIndex];
+        document.getElementById("resultText").innerHTML = 'We tied!';
         return;
     }
     computerTurn()
     if (didPersonWin(vals, -1)) {
         gameOver = true;
         let randIndex = Math.floor(Math.random() * winMessages.length)
-        document.getElementById("resultText").innerHTML = 'I win! ' + winMessages[randIndex];
+        document.getElementById("resultText").innerHTML = 'I win!';
     }
     return;
 }
