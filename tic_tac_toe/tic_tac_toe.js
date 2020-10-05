@@ -7,7 +7,7 @@ const tieMessages = ["The singularity is near!", "This intelligence is more than
 
 
 //Function to restart game
-function restart() {
+function restartGame() {
 	for (var i = 0; i < 9; i++) {
         vals[i] = 0;
         document.getElementById(i).innerHTML = '&nbsp;';
@@ -18,6 +18,7 @@ function restart() {
 }
 
 
+//Function that runs when the human clicks on a square
 function onSelect(square) {
     let squareID = parseInt(square.id);
     if (vals[squareID] || !isHumanTurn || gameOver) return;
@@ -43,13 +44,15 @@ function onSelect(square) {
     return;
 }
 
-
+//Human turn
 function humanTurn(squareID, square) {
     square.innerHTML = 'x';
     vals[squareID] = 1;
     isHumanTurn = false;
 }
 
+
+//Computer turn
 function computerTurn() {
     var bestMove = chooseBestMove()
     if (!(bestMove===-1)) { //don't think I need this check
@@ -59,7 +62,7 @@ function computerTurn() {
     }
 }
 
-
+//Uses recursive minimax algorithm to choose optimal move
 function chooseBestMove() {
     var bestMove = -1;
     var bestMoveVal;
@@ -93,10 +96,12 @@ function minimax(board, playerID) {
     return bestScore;
 }
 
+//Checks if someone has won
 function didPersonWin(B, n) {
     return ((B[0]+B[1]+B[2]===n*3) || (B[3]+B[4]+B[5]===n*3) || (B[6]+B[7]+B[8]===n*3) || (B[0]+B[3]+B[6]===n*3) || (B[1]+B[4]+B[7]===n*3) || (B[2]+B[5]+B[8]===n*3) || (B[0]+B[4]+B[8]===n*3) || (B[2]+B[4]+B[6]===n*3))
 }
 
+//Checks if the board is full
 function isFull(board) {
     return (board[0] && board[1] && board[2] && board[3] && board[4] && board[5] && board[6] && board[7] && board[8])
 }
