@@ -9,7 +9,7 @@ document.onkeypress = addText
 
 function addText() {
 	var paragraph = document.getElementById("hackerText");
-    var wordEnd = Math.min(pos+lettersAtATime, msg.length)
+  var wordEnd = Math.min(pos+lettersAtATime, msg.length);
 	var text = document.createTextNode(msg.substring(pos, wordEnd));
 	paragraph.appendChild(text);
     pos += lettersAtATime
