@@ -7,12 +7,12 @@ const tieMessages = ["The singularity is near!", "This intelligence is more than
 
 
 //Function to restart game
-function restart() { 
+function restart() {
 	for (var i = 0; i < 9; i++) {
         vals[i] = 0;
-        document.getElementById(i).innerHTML = '&nbsp;';   
+        document.getElementById(i).innerHTML = '&nbsp;';
     }
-    document.getElementById("resultText").innerHTML = '&nbsp;';   
+    document.getElementById("resultText").innerHTML = '&nbsp;';
     isHumanTurn = true;
     gameOver = false;
 }
@@ -31,14 +31,14 @@ function onSelect(square) {
     if (isFull(vals)) {
         gameOver = true;
         let randIndex = Math.floor(Math.random() * tieMessages.length)
-        document.getElementById("resultText").innerHTML = 'We tied!';
+        document.getElementById("resultText").innerHTML = 'We tied! '; // + tieMessages[randIndex]; //optional zingers
         return;
     }
     computerTurn()
     if (didPersonWin(vals, -1)) {
         gameOver = true;
         let randIndex = Math.floor(Math.random() * winMessages.length)
-        document.getElementById("resultText").innerHTML = 'I win!';
+        document.getElementById("resultText").innerHTML = 'I win! '; // + winMessages[randIndex]; //more zingers
     }
     return;
 }
@@ -67,7 +67,7 @@ function chooseBestMove() {
     	if (!vals[i]) {
             var boardWithThisMove = [...vals]; //copies array to pass by value
             boardWithThisMove[i] = -1;
-            let thisMoveVal = minimax(boardWithThisMove, 1) 
+            let thisMoveVal = minimax(boardWithThisMove, 1)
             if (bestMove===-1 || thisMoveVal < bestMoveVal) {
                 bestMoveVal = thisMoveVal;
                 bestMove = i;
@@ -85,8 +85,8 @@ function minimax(board, playerID) {
     for (var i = 0; i < 9; i++) {
     	if (!board[i]) {
             var boardWithThisMove = [...board]; //copies array to pass by value
-            boardWithThisMove[i] = playerID; 
-            let thisMoveVal = minimax(boardWithThisMove, -playerID) 
+            boardWithThisMove[i] = playerID;
+            let thisMoveVal = minimax(boardWithThisMove, -playerID)
             if ((playerID*thisMoveVal) > (playerID*bestScore)) bestScore = thisMoveVal;
     	}
     }
