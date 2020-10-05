@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-<body style="background-color:#000000; color: #FFFF00">
+//Will type out the given message whenever the user clicks. Perfect for fake hacking.
 
-<h2>Type below to reveal your fortune<!-- (inspired by <a href="https://hackertyper.net" target="_blank">hackertyper.net</a>)--></h2>
-<p id="hackerText"></p>
-</body>
-
-<script>
 var lettersAtATime = 3
 var pos = 0
 //var msg = "Did you ever hear the Tragedy of Darth Plagueis the wise? I thought not. It's not a story the Jedi would tell you. It's a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life... He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful... the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. It's ironic he could save others from death, but not himself. "
@@ -22,5 +15,3 @@ function addText() {
     pos += lettersAtATime
     if (pos >= msg.length) pos = 0
 }
-</script>
-</html> 
