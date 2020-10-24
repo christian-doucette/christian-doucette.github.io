@@ -15,6 +15,6 @@ function addText() {
   pos += lettersAtATime
   if (pos >= msg.length) pos = 0
 
-	var paragraph = document.getElementById("textBottom");
-	paragraph.scrollIntoView(false)
+	var bottom = document.getElementById("textBottom");
+	bottom.scrollIntoView(false)
 }
