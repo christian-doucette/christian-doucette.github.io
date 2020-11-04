@@ -1,2 +1,2 @@
-# christian-doucette.github.io
-My name is Christian Doucette and this is my personal website
+# Personal Website
+My name is Christian Doucette and I am an aspiring software developer. Check out this website to see information about me, some personal projects, and my resume. 
