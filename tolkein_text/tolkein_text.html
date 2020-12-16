@@ -17,9 +17,10 @@
   const myOnnxSession = new onnx.InferenceSession();
 
 
-
+  console.log('trying to load model')
   // load the ONNX model file
   myOnnxSession.loadModel("./trained_model.onnx").then(() => {
+    console.log('loaded model!')
     // generate model input
     const input_tensor = new Tensor([1,2,3,4,5,6,7,8,9], "int32", [1, 9]);
     const h0_tensor    = new Tensor(new Float32Array(512), "float32", [2, 1, 256]);
