@@ -25,10 +25,15 @@
     const h0_tensor    = new Tensor(new Float32Array(512), "float32", [2, 1, 256]);
     const c0_tensor    = new Tensor(new Float32Array(512), "float32", [2, 1, 256]);
 
+    console.log('created input tensors')
+
     const full_input = [input_tensor, h0_tensor, c0_tensor]
+
+    console.log('about to execute model')
 
     // execute the model
     myOnnxSession.run(full_input).then((output) => {
+      console.log('done!')
       console.log(output)
       // consume the output
       const outputTensor = output[0].values().next().value;
