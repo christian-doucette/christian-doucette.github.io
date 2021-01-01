@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Base Converter</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="../projects.html">Projects</a></li>
+      <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+      <li class="nav-item"><a class="nav-link" target="_blank" href="../resume.pdf">Resume</a></li>
+    </ul>
+  </nav>
+
+
+
+  <div class = "container">
+    <h2 style="margin-bottom: 40px">Base Converter</h2>
+
+
+    <form onsubmit="event.preventDefault();">
+
+      Convert <input type="text" id="num">
+
+      from <select id="from_system">
+              <option value=2>Binary</option>
+              <option value=10 selected>Decimal</option>
+              <option value=16>Hex</option>
+            </select>
+
+      to <select id="to_system">
+              <option value=2>Binary</option>
+              <option value=10>Decimal</option>
+              <option value=16>Hex</option>
+         </select>
+
+    <br><br>
+    <input type="submit" onclick="convertSystem(document.getElementById('num').value, document.getElementById('to_system').value, document.getElementById('from_system').value)">
+
+    </form>
+
+    <br><p id="output"></p>
+  </div>
+</body>
+
+
+<script>
+function convertSystem(num_as_string, to_system, from_system) {
+  parsed_num = parseInt(num_as_string, from_system);
+  converted_num = (parsed_num >>> 0).toString(to_system).toUpperCase();
+  document.getElementById("output").innerHTML = converted_num;
+  return;
+}
+</script>
